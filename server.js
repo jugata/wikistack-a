@@ -1,12 +1,19 @@
 const http = require('http')
-const { db } = require('./models')
+const { db, Page, User } = require('./models')
 const app = require('./app');
 const server = http.createServer(app)
 
 const PORT = 3000
 
+const init = async () => {
+
+  db.sync({ force: true })
 
 
-server.listen(PORT, () => {
-  console.log(`listening from PORT ${PORT}`)
-})
+  server.listen(PORT, () => {
+    console.log(`listening from PORT ${PORT}`)
+  })
+
+}
+
+init()
