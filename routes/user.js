@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-//retreives all wiki pages
+//retreives all user pages
 router.get('/', (req, res, next) => {
   res.send()
 })

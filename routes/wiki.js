@@ -3,17 +3,26 @@ const router = express.Router()
 
 const { addPage, editPage, main, userList, userPages, wikiPage } = require('../views')
 const { Page } = require('../models')
-module.exports = router
+
 
 router.get('/', (req, res, next) => {
-  const pages = Page.findAll()
-  res.send(pages)
+  //const pages = Page.findAll()
+  res.send("got to /wiki")
 })
 
 
 // submits a new page to db
-router.post('/', (req, res, next) => {
-  res.send()
+router.post('/', async (req, res, next) => {
+  const page = new Page(req.body)
+  try {
+    await page.save();
+    res.redirect('/');
+
+
+  } catch (error) {
+    next(error)
+  }
+
 })
 
 
@@ -22,3 +31,5 @@ router.post('/', (req, res, next) => {
 router.get('/add', (req, res, next) => {
   res.send(addPage())
 })
+
+module.exports = router

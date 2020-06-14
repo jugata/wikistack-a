@@ -9,6 +9,12 @@ db.authenticate()
     console.log("Connected to db successfully!")
   })
 
+function generateSlug(title) {
+  // Removes all non-alphanumeric characters from title
+  // And make whitespace underscore
+  return title.replace(/\s+/g, '_').replace(/\W/g, '');
+}
+
 const Page = db.define('page', {
   title: {
     type: Sequelize.STRING,
@@ -16,7 +22,9 @@ const Page = db.define('page', {
   },
   slug: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    //since we are searching, editing, deleting by slug, these need to be unique
+    unique: true
   },
   content: {
     type: Sequelize.TEXT,
@@ -24,6 +32,13 @@ const Page = db.define('page', {
   },
   status: {
     type: Sequelize.ENUM('open', 'closed')
+  }
+})
+
+//hook for slug
+Page.beforeValidate((page) => {
+  if (!page.slug) {
+    page.slug = generateSlug(page.title)
   }
 })
 
@@ -35,10 +50,7 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
-    validate: {
-      isEmail: true,
-      isUnique: true,
-    }
+    isEmail: true,
   }
 })
 
