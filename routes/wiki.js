@@ -81,4 +81,43 @@ router.get('/:slug', async (req, res, next) => {
 
 })
 
+// gets form body, updates, redirects
+router.post('/:slug', async (req, res, next) => {
+  try {
+    const [numOfUpdatedRows, updatedRows] = await Page.update(req.body, {
+
+      where: {
+        slug: req.params.slug
+      },
+      returning: true
+    })
+    res.redirect(`/wiki/${updatedRows[0].slug}`)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+// hooked up to editPage
+router.get('/:slug/edit', async (req, res, next) => {
+  try {
+    const page = await Page.findOne({
+      where: {
+        slug: req.params.slug
+      }
+    })
+    if (!page) {
+      res.sendStatus(404)
+    }
+    const author = await page.getAuthor()
+    res.send(editPage(page, author))
+  } catch (error) {
+    next(error)
+  }
+})
+
+
+
+
 module.exports = router
