@@ -78,7 +78,19 @@ router.get('/:slug', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
 
+router.get('/:slug/delete', async (req, res, next) => {
+  try {
+    Page.destroy({
+      where: {
+        slug: req.params.slug
+      }
+    })
+    res.redirect('/wiki')
+  } catch (error) {
+    next(error)
+  }
 })
 
 // gets form body, updates, redirects
@@ -98,6 +110,8 @@ router.post('/:slug', async (req, res, next) => {
   }
 
 })
+
+
 
 // hooked up to editPage
 router.get('/:slug/edit', async (req, res, next) => {
