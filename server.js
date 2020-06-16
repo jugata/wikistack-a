@@ -7,7 +7,7 @@ const PORT = 3000
 
 const init = async () => {
 
-  db.sync({ force: false })
+  db.sync({ force: true })
 
 
   server.listen(PORT, () => {

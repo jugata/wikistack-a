@@ -5,7 +5,7 @@ const path = require('path');
 
 //Importing Routers
 const wikiRouter = require('./routes/wiki')
-const userRouter = require('./routes/user')
+const usersRouter = require('./routes/users')
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.use('/wiki', wikiRouter)
-app.use('/user', userRouter)
+app.use('/users', usersRouter)
 
 
 
